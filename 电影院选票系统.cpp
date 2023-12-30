@@ -2,115 +2,111 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
-// ½á¹¹Ìå¶¨Òå£¨µçÓ°¡¢·ÅÓ³Ìü¡¢¶©µ¥¡¢¹Ë¿Í¡¢¹ÜÀíÔ±£©
+// ç»“æ„ä½“å®šä¹‰ï¼ˆç”µå½±ã€æ”¾æ˜ å…ã€è®¢å•ã€é¡¾å®¢ã€ç®¡ç†å‘˜ï¼‰
 struct Movie {
-    char movieNum[20];    // µçÓ°±àºÅ
-    char movieName[20];  // µçÓ°Ãû³Æ
-    double price;        // µçÓ°µ¥¼Û
-    char date[20];       // µçÓ°·ÅÓ³ÈÕÆÚ
-    char time[20];       // ·ÅÓ³Ê±¼ä
-    char movieHouse[20];  // ËùÔÚ·ÅÓ³Ìü±àºÅ
-    char setState[101];  // µ±Ç°×´Ì¬
+    char movieNum[20];    // ç”µå½±ç¼–å·
+    char movieName[20];  // ç”µå½±åç§°
+    double price;        // ç”µå½±å•ä»·
+    char date[20];       // ç”µå½±æ”¾æ˜ æ—¥æœŸ
+    char time[20];       // æ”¾æ˜ æ—¶é—´
+    char movieHouse[20];  // æ‰€åœ¨æ”¾æ˜ å…ç¼–å·
+    char setState[101];  // å½“å‰çŠ¶æ€
     struct Movie *next;
 };
-
 struct movieHouse {
-    char houseNum[20];    // ·ÅÓ³Ìü±àºÅ
-    char houseName[20];  // ·ÅÓ³ÌüÃû³Æ
-    int houserow;         // ·ÅÓ³ÌüĞĞÊı
-    int housecol;        // ·ÅÓ³ÌüÁĞÊı
-    char houseState [10];  // ·ÅÓ³Ìü×´Ì¬open or close 
+    char houseNum[20];    // æ”¾æ˜ å…ç¼–å·
+    char houseName[30];  // æ”¾æ˜ å…åç§°
+    int houserow;         // æ”¾æ˜ å…è¡Œæ•°
+    int housecol;        // æ”¾æ˜ å…åˆ—æ•°
+    char houseState [10];  // æ”¾æ˜ å…çŠ¶æ€open or close 
     struct movieHouse *next;
 };
-
 struct Order {
-    char custName[20];   // ¹Ë¿ÍÓÃ»§Ãû
-    char movieName[20];  // µçÓ°Ãû³Æ
-    int ticketNum;       // ¹ºÂòÊıÁ¿
-    char set[40];        // ËùÑ¡×ùÎ»
-    double ticketCost;   // ×Ü¼Û¸ñ
-    char OrderDate[20];  // ¹ºÂòÈÕÆÚ
+    char custName[20];   // é¡¾å®¢ç”¨æˆ·å
+    char movieName[20];  // ç”µå½±åç§°
+    int ticketNum;       // è´­ä¹°æ•°é‡
+    char set[40];        // æ‰€é€‰åº§ä½
+    double ticketCost;   // æ€»ä»·æ ¼
+    char OrderDate[20];  // è´­ä¹°æ—¥æœŸ
     struct Order *next;
 };
-
 struct Customer {
-    char CustName[20];  // ¹Ë¿ÍÃû³Æ
-    char CustCode[20];  // ÃÜÂë
+    char CustName[20];  // é¡¾å®¢åç§°
+    char CustCode[20];  // å¯†ç 
     
 };
 struct Customer cust[200];
-
 struct Manager {
-    char username[20];  // ¹ÜÀíÔ±ÓÃ»§Ãû
-    char password[20];  // ÃÜÂë
+    char username[20];  // ç®¡ç†å‘˜ç”¨æˆ·å
+    char password[20];  // å¯†ç 
     struct Manager *next;
 }; 
-//2¸öÖ÷µÇÂ¼º¯Êı 
-void loginCustomer(); //¹Ë¿ÍµÇÂ¼ ÀïÃæ°üº¬×¢²á // ¹Ë¿ÍĞÅÏ¢Ïà¹Øº¯ÊıÉùÃ÷
-void loginManager();//¹ÜÀíÔ±µÇÂ¼ // ¹ÜÀíÔ±ĞÅÏ¢Ïà¹Øº¯ÊıÉùÃ÷ 
-//Á´±í´´½¨º¯Êı
-Movie *Creat_Movie_Doc();  // ´´½¨µçÓ°³¡´ÎĞÅÏ¢Á´
-movieHouse *Create_House_Doc(); //´´½¨·ÅÓ³ÌüÁ´±í
+//2ä¸ªä¸»ç™»å½•å‡½æ•° 
+void loginCustomer(); //é¡¾å®¢ç™»å½• é‡Œé¢åŒ…å«æ³¨å†Œ // é¡¾å®¢ä¿¡æ¯ç›¸å…³å‡½æ•°å£°æ˜
+void loginManager();//ç®¡ç†å‘˜ç™»å½• // ç®¡ç†å‘˜ä¿¡æ¯ç›¸å…³å‡½æ•°å£°æ˜ 
+//é“¾è¡¨åˆ›å»ºå‡½æ•°
+Movie *Creat_Movie_Doc();  // åˆ›å»ºç”µå½±åœºæ¬¡ä¿¡æ¯é“¾
+movieHouse *Create_House_Doc(); //åˆ›å»ºæ”¾æ˜ å…é“¾è¡¨
 
-//2¸ö¹ÜÀí×Üº¯Êı 
-void HouseControl();  //·ÅÓ³Ìü¹ÜÀí
-void MovieControl(); //µçÓ°¹ÜÀí 
-// µçÓ°ĞÅÏ¢Ïà¹Øº¯ÊıÉùÃ÷
-void Printf_Movie_Doc(Movie *mhead);  // Êä³öµçÓ°³¡´ÎĞÅÏ¢
-Movie *Insert_movie_Doc(Movie *mhead);  //²åÈëÁ´±í£¬Ôö¼ÓµçÓ°ÊıÄ¿
-Movie *Delete_Movie_Doc(Movie *mhead);  //É¾³ıµçÓ°³¡´ÎĞÅÏ¢
-void After_Movie_Doc(Movie *mhead);   //ĞŞ¸ÄµçÓ°³¡´ÎĞÅÏ¢
-void InMoviefile(Movie * mhead);   // ½«µçÓ°ĞÅÏ¢Ğ´Èëmovie.txt ÎÄ¼ş 
-void sortMovie(Movie *mhead);  //  ¶ÔµçÓ°±àºÅ½øĞĞÉıĞòÅÅÁĞÅÅĞò
-// ·ÅÓ³ÌüĞÅÏ¢Ïà¹Øº¯ÊıÉùÃ÷ 
-movieHouse *Insert_House_Doc(movieHouse *head,movieHouse *p); //·ÅÓ³ÌüÁ´±íµÄ²åÈë   Ôö¼Ó·ÅÓ³ÌüÊı¾İ   
-void print_House_Doc(movieHouse *head); // ±éÀúÁ´±í £¬Êä³ö·ÅÓ³ÌüĞÅÏ¢
-movieHouse* Delete_House_Doc(movieHouse * head,char houseNum[]) ;// É¾³ı·ÅÓ³ÌüÊı¾İ 
-void After_House_Doc(movieHouse *head); // ĞŞ¸ÄÒÑÓĞ·ÅÓ³ÌüµÄĞÅÏ¢
-void InHouseFile(movieHouse *head);   // ĞŞ¸ÄµÄĞÅÏ¢Ğ´ÈëÎÄ¼ş
-// ¶©µ¥ĞÅÏ¢Ïà¹Øº¯ÊıÉùÃ÷
-void Ordercheck(Order *ohead, char name[]); //²é¿´¶©µ¥ 
-Order * MovieOrder(Order *ohead, Movie *mhead, char custName[]);//µçÓ°¹ºÆ± 
-Order *Create_Order_Doc(); // ´´½¨¶©µ¥Á´±íºÍÎÄ¼ş½øÈëÁ´±í
-void InorderFile(Order *ohead);//  ½«¶©µ¥Á´±íµ¼ÈëÎÄ¼ş
-Order *Insert_Order_Doc(Order *ohead,Order *p);  // ½«¹Ë¿ÍµÄÑ¡Ôñ²åÈëÁ´±íÖĞ
-//²é¿´×¢²áÈËÊı 
+//2ä¸ªç®¡ç†æ€»å‡½æ•° 
+void HouseControl();  //æ”¾æ˜ å…ç®¡ç†
+void MovieControl(); //ç”µå½±ç®¡ç† 
+// ç”µå½±ä¿¡æ¯ç›¸å…³å‡½æ•°å£°æ˜
+void Printf_Movie_Doc(Movie *mhead);  // è¾“å‡ºç”µå½±åœºæ¬¡ä¿¡æ¯
+Movie *Insert_movie_Doc(Movie *mhead);  //æ’å…¥é“¾è¡¨ï¼Œå¢åŠ ç”µå½±æ•°ç›®
+Movie *Delete_Movie_Doc(Movie *mhead);  //åˆ é™¤ç”µå½±åœºæ¬¡ä¿¡æ¯
+void After_Movie_Doc(Movie *mhead);   //ä¿®æ”¹ç”µå½±åœºæ¬¡ä¿¡æ¯
+void InMoviefile(Movie * mhead);   // å°†ç”µå½±ä¿¡æ¯å†™å…¥movie.txt æ–‡ä»¶ 
+void sortMovie(Movie *mhead);  //  å¯¹ç”µå½±ç¼–å·è¿›è¡Œå‡åºæ’åˆ—æ’åº
+// æ”¾æ˜ å…ä¿¡æ¯ç›¸å…³å‡½æ•°å£°æ˜ 
+movieHouse *Insert_House_Doc(movieHouse *head,movieHouse *p); //æ”¾æ˜ å…é“¾è¡¨çš„æ’å…¥   å¢åŠ æ”¾æ˜ å…æ•°æ®   
+void print_House_Doc(movieHouse *head); // éå†é“¾è¡¨ ï¼Œè¾“å‡ºæ”¾æ˜ å…ä¿¡æ¯
+movieHouse* Delete_House_Doc(movieHouse * head,char houseNum[]) ;// åˆ é™¤æ”¾æ˜ å…æ•°æ® 
+void After_House_Doc(movieHouse *head); // ä¿®æ”¹å·²æœ‰æ”¾æ˜ å…çš„ä¿¡æ¯
+void InHouseFile(movieHouse *head);   // ä¿®æ”¹çš„ä¿¡æ¯å†™å…¥æ–‡ä»¶
+// è®¢å•ä¿¡æ¯ç›¸å…³å‡½æ•°å£°æ˜
+void Ordercheck(Order *ohead, char name[]); //æŸ¥çœ‹è®¢å• 
+Order * MovieOrder(Order *ohead, Movie *mhead, char custName[]);//ç”µå½±è´­ç¥¨ 
+Order *Create_Order_Doc(); // åˆ›å»ºè®¢å•é“¾è¡¨å’Œæ–‡ä»¶è¿›å…¥é“¾è¡¨
+void InorderFile(Order *ohead);//  å°†è®¢å•é“¾è¡¨å¯¼å…¥æ–‡ä»¶
+Order *Insert_Order_Doc(Order *ohead,Order *p);  // å°†é¡¾å®¢çš„é€‰æ‹©æ’å…¥é“¾è¡¨ä¸­
+//æŸ¥çœ‹æ³¨å†Œäººæ•° 
 int readCustomer(struct Customer cust[]); 
 
 int main() {
-    // Ö÷³ÌĞò´úÂë
-   //³õÊ¼»¯Ò»×é¹Ë¿ÍÃÜÂë
+    // ä¸»ç¨‹åºä»£ç 
+   //åˆå§‹åŒ–ä¸€ç»„é¡¾å®¢å¯†ç 
     strcpy(cust[0].CustName, "zhanghaobo");
     strcpy(cust[0].CustCode, "zhanghaobo");
     // ...  
     int i; 
-	int userType;  // 1±íÊ¾¹ÜÀíÔ±£¬2±íÊ¾¹Ë¿Í  
+	int userType;  // 1è¡¨ç¤ºç®¡ç†å‘˜ï¼Œ2è¡¨ç¤ºé¡¾å®¢  
 	
 	onceagain: 
 	printf("==================================\n");
 	printf("\n");
-	printf("       ÇëÊäÈëµÇÂ¼ÀàĞÍ              \n");
+	printf("       è¯·è¾“å…¥ç™»å½•ç±»å‹              \n");
 	printf("\n");
-	printf("    1.¹ÜÀíÔ±\t  2.ÓÃ»§            \n");
+	printf("    1.ç®¡ç†å‘˜\t  2.ç”¨æˆ·            \n");
 	printf("\n"); 
 	printf("==================================\n");
-	printf("\nÇëÊäÈëÄúÏëÒª½øĞĞµÄ²Ù×÷£º ");
+	printf("\nè¯·è¾“å…¥æ‚¨æƒ³è¦è¿›è¡Œçš„æ“ä½œï¼š ");
 	scanf("%d",&userType);
 	system ("cls");
-	// ¸ù¾İÓÃ»§ÊäÈëÀ´ÉèÖÃuserType£¬¿ÉÒÔÍ¨¹ı²Ëµ¥ÈÃÓÃ»§Ñ¡Ôñ¹ÜÀíÔ±µÇÂ¼»¹ÊÇ¹Ë¿ÍµÇÂ¼
+	// æ ¹æ®ç”¨æˆ·è¾“å…¥æ¥è®¾ç½®userTypeï¼Œå¯ä»¥é€šè¿‡èœå•è®©ç”¨æˆ·é€‰æ‹©ç®¡ç†å‘˜ç™»å½•è¿˜æ˜¯é¡¾å®¢ç™»å½•
     if (userType == 1) {
         loginManager();
-		// ¹ÜÀíÔ±µÇÂ¼
-        // µ÷ÓÃµÇÂ¼¹ÜÀíÔ±µÄº¯Êı loginManager£¬²¢¸ù¾İ·µ»ØÖµ¾ö¶¨ÊÇ·ñÖ´ĞĞµçÓ°ĞÅÏ¢ĞŞ¸ÄµÈ²Ù×÷
+		// ç®¡ç†å‘˜ç™»å½•
+        // è°ƒç”¨ç™»å½•ç®¡ç†å‘˜çš„å‡½æ•° loginManagerï¼Œå¹¶æ ¹æ®è¿”å›å€¼å†³å®šæ˜¯å¦æ‰§è¡Œç”µå½±ä¿¡æ¯ä¿®æ”¹ç­‰æ“ä½œ
         // ... 
 		again_01:
 	printf("==================================\n");
-	printf("    1. µçÓ°·ÅÓ³ÌüĞÅÏ¢¹ÜÀí        \n"); 
-	printf("    2. µçÓ°³¡´ÎĞÅÏ¢¹ÜÀí          \n");
-	printf("    0. ÍË³ö                      \n");
+	printf("    1. ç”µå½±æ”¾æ˜ å…ä¿¡æ¯ç®¡ç†        \n"); 
+	printf("    2. ç”µå½±åœºæ¬¡ä¿¡æ¯ç®¡ç†          \n");
+	printf("    0. é€€å‡º                      \n");
 	printf("==================================\n");
 	int choice;
-	printf("ÇëÊäÈëÄãÏëÒª½øĞĞµÄ²Ù×÷£º    ");
+	printf("è¯·è¾“å…¥ä½ æƒ³è¦è¿›è¡Œçš„æ“ä½œï¼š    ");
 	scanf("%d",&choice);
 	system ("cls");
 	switch(choice)
@@ -118,21 +114,21 @@ int main() {
 		case 1:
 			HouseControl();
 			goto again_01;
-			break;   // ½øĞĞ·ÅÓ³ÌüµÄ¹ÜÀí
+			break;   // è¿›è¡Œæ”¾æ˜ å…çš„ç®¡ç†
 		case 2:
 			MovieControl(); 
 			goto again_01;
-			break;  // µçÓ°³¡´Î¹ÜÀí
+			break;  // ç”µå½±åœºæ¬¡ç®¡ç†
 		case 0: exit(0);break;
 		default : goto again_01; break;
 	}  
 } 	else if (userType == 2) {
         loginCustomer();
-		// ¹Ë¿ÍÑ¡ÔñµÇÂ¼»¹ÊÇ×¢²á 
-        // µ÷ÓÃµÇÂ¼¹Ë¿ÍµÄº¯Êı loginCustomerºÍregisterCustomer£¬²¢¸ù¾İ·µ»ØÖµ¾ö¶¨ÊÇ·ñÖ´ĞĞ¶©Æ±µÈ²Ù×÷
+		// é¡¾å®¢é€‰æ‹©ç™»å½•è¿˜æ˜¯æ³¨å†Œ 
+        // è°ƒç”¨ç™»å½•é¡¾å®¢çš„å‡½æ•° loginCustomerå’ŒregisterCustomerï¼Œå¹¶æ ¹æ®è¿”å›å€¼å†³å®šæ˜¯å¦æ‰§è¡Œè®¢ç¥¨ç­‰æ“ä½œ
         // ...    
     } else {
-        printf("\n\nÄúµÄÊäÈëÓĞÎó£¬ÇëÖØĞÂÑ¡Ôñ\n");
+        printf("\n\næ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼Œè¯·é‡æ–°é€‰æ‹©\n");
 			Sleep(1000);
 			system ("cls");
 			goto  onceagain;
@@ -142,15 +138,15 @@ int main() {
 
     return 0;
 }
-//ÏÂÃæ¿ªÊ¼Ğ´º¯Êı
-//1ÏÈĞ´¹ÜÀíÔ±µÇÂ½º¯Êı
+//ä¸‹é¢å¼€å§‹å†™å‡½æ•°
+//1å…ˆå†™ç®¡ç†å‘˜ç™»é™†å‡½æ•°
 	void loginManager() 
 {
-    int maxLoginAttempts = 5; // ×î´óµÇÂ¼³¢ÊÔ´ÎÊı
+    int maxLoginAttempts = 5; // æœ€å¤§ç™»å½•å°è¯•æ¬¡æ•°
     int remainingAttempts = maxLoginAttempts;
     
-    // ¼ÙÉè´æÔÚÒ»¸ö¹ÜÀíÔ±ÕËºÅºÍÃÜÂëµÄÊı×é£¬¿ÉÒÔ°üº¬¶à¸ö¹ÜÀíÔ±ÕËºÅ
-    struct Manager adminAccounts[3]; // ¼ÙÉèÓĞ3¸ö¹ÜÀíÔ±ÕËºÅ
+    // å‡è®¾å­˜åœ¨ä¸€ä¸ªç®¡ç†å‘˜è´¦å·å’Œå¯†ç çš„æ•°ç»„ï¼Œå¯ä»¥åŒ…å«å¤šä¸ªç®¡ç†å‘˜è´¦å·
+    struct Manager adminAccounts[3]; // å‡è®¾æœ‰3ä¸ªç®¡ç†å‘˜è´¦å·
     strcpy(adminAccounts[0].username, "1111");
     strcpy(adminAccounts[0].password, "1111");
     strcpy(adminAccounts[1].username, "2222");
@@ -162,37 +158,37 @@ int main() {
         char username[20];
         char password[20];
         
-        printf("\nÇëÊäÈë¹ÜÀíÔ±ÕËºÅ£º ");
+        printf("\nè¯·è¾“å…¥ç®¡ç†å‘˜è´¦å·ï¼š ");
         scanf("%s", username);
-        printf("\nÇëÊäÈëÃÜÂë£º ");
+        printf("\nè¯·è¾“å…¥å¯†ç ï¼š ");
         scanf("%s", password);
         
-        // ÑéÖ¤¹ÜÀíÔ±ÕËºÅºÍÃÜÂë
-        int isAdmin = 0; // ±ê¼ÇÊÇ·ñÊÇ¹ÜÀíÔ±
-        for (int i = 0; i < 3; i++) { // ¼ÙÉèÓĞ3¸ö¹ÜÀíÔ±ÕËºÅ
+        // éªŒè¯ç®¡ç†å‘˜è´¦å·å’Œå¯†ç 
+        int isAdmin = 0; // æ ‡è®°æ˜¯å¦æ˜¯ç®¡ç†å‘˜
+        for (int i = 0; i < 3; i++) { // å‡è®¾æœ‰3ä¸ªç®¡ç†å‘˜è´¦å·
             if (strcmp(username, adminAccounts[i].username) == 0 &&
                 strcmp(password, adminAccounts[i].password) == 0) {
-                isAdmin = 1; // ÑéÖ¤Í¨¹ı£¬ÊÇ¹ÜÀíÔ±
+                isAdmin = 1; // éªŒè¯é€šè¿‡ï¼Œæ˜¯ç®¡ç†å‘˜
                 break;
             }
         }
         
         if (isAdmin) {
-            printf("\nµÇÂ¼³É¹¦£¡\n");
-            // ÔÚÕâÀï¿ÉÒÔÖ´ĞĞ¹ÜÀíÔ±²Ù×÷
-            break; // ÍË³öµÇÂ¼Ñ­»·
+            printf("\nç™»å½•æˆåŠŸï¼\n");
+            // åœ¨è¿™é‡Œå¯ä»¥æ‰§è¡Œç®¡ç†å‘˜æ“ä½œ
+            break; // é€€å‡ºç™»å½•å¾ªç¯
         } else {
             remainingAttempts--;
-            printf("\nÕËºÅ»òÃÜÂë´íÎó£¬Ê£Óà³¢ÊÔ´ÎÊı£º%d\n", remainingAttempts);
+            printf("\nè´¦å·æˆ–å¯†ç é”™è¯¯ï¼Œå‰©ä½™å°è¯•æ¬¡æ•°ï¼š%d\n", remainingAttempts);
             if (remainingAttempts > 0) {
-                printf("\nÇëÖØĞÂÊäÈë\n");
+                printf("\nè¯·é‡æ–°è¾“å…¥\n");
             } else {
-                printf("\nµÇÂ¼Ê§°Ü£¬´ïµ½×î´ó³¢ÊÔ´ÎÊı£¬³ÌĞòÍË³ö\n");
+                printf("\nç™»å½•å¤±è´¥ï¼Œè¾¾åˆ°æœ€å¤§å°è¯•æ¬¡æ•°ï¼Œç¨‹åºé€€å‡º\n");
                 exit(0);
             }
         }
     }
-    // ÔÚÕâÀï¿ÉÒÔÖ´ĞĞÆäËû¹ÜÀíÔ±²Ù×÷...
+    // åœ¨è¿™é‡Œå¯ä»¥æ‰§è¡Œå…¶ä»–ç®¡ç†å‘˜æ“ä½œ...
     
 }
 	void loginCustomer()
@@ -203,31 +199,31 @@ int main() {
 		printf(" file open error!\n");
 		exit (0);
 	}
-	//³õÊ¼»¯Ò»×éÃÜÂë 
-	//fprintf(fp, "zhanghaobo zhang\n");//ÔËĞĞÍêµÚÒ»´Î»òÕßĞ´½øÈ¥¾Í×¢ÊÍ 
+	//åˆå§‹åŒ–ä¸€ç»„å¯†ç  
+	//fprintf(fp, "zhanghaobo zhang\n");//è¿è¡Œå®Œç¬¬ä¸€æ¬¡æˆ–è€…å†™è¿›å»å°±æ³¨é‡Š 
 	int custCount = readCustomer(cust);
 	char name[20],code[20];
 	int choice,inputValid=0;
 	again_1:
 	printf("\n\n*******************************\n");
-	printf(" \n    »¶Ó­À´µ½¶«À³Ó°³Ç       \n");
+	printf(" \n    æ¬¢è¿æ¥åˆ°ä¸œè±å½±åŸ       \n");
 	printf("\n");
-	printf(" \n  1. µÇÂ¼\t  2.×¢²á          \n");
+	printf(" \n  1. ç™»å½•\t  2.æ³¨å†Œ          \n");
 	printf("\n");
 	printf("\n*******************************\n");
-	printf("ÇëÊäÈëÄúµÄÑ¡Ôñ:   ");
+	printf("è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©:   ");
 	while (!inputValid)
 	{
 	scanf("%d", &choice);
 	int flag =1,time=0;
 	switch (choice) {
 		case 1:
-				// Ö´ĞĞµÇÂ¼²Ù×÷
+				// æ‰§è¡Œç™»å½•æ“ä½œ
 				again_2:
 				custCount = readCustomer(cust); 
-				printf("\nÇëÊäÈëÓÃ»§Ãû: ");
+				printf("\nè¯·è¾“å…¥ç”¨æˆ·å: ");
     			scanf("%s", name);
-    			printf("\nÇëÊäÈëÃÜÂë: ");
+    			printf("\nè¯·è¾“å…¥å¯†ç : ");
     			scanf("%s", code);
 			for (int i=0;i<=custCount;i++) 
 			{
@@ -239,50 +235,50 @@ int main() {
 			}	
 			if (flag)
 			{
-	 			printf("ÕËºÅ»òÃÜÂë´íÎó£¬ÇëÖØĞÂÊäÈë£¡ \n");
+	 			printf("è´¦å·æˆ–å¯†ç é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼ \n");
 	 			time++;
-	 			printf("Äã»¹ÓĞ%d ´ÎÊäÈë´ÎÊı",(5-time));
-	 			system("pause"); //  ¿ÉÒÔÊµÏÖ¶³½áÆÁÄ»£¬±ãÓÚ¹Û²ì³ÌĞòÖ´ĞĞ½á¹û 
+	 			printf("ä½ è¿˜æœ‰%d æ¬¡è¾“å…¥æ¬¡æ•°",(5-time));
+	 			system("pause"); //  å¯ä»¥å®ç°å†»ç»“å±å¹•ï¼Œä¾¿äºè§‚å¯Ÿç¨‹åºæ‰§è¡Œç»“æœ 
 	 			system ("cls");
 	 			goto again_2;
 			}
 			else 
 			{
-				printf("µÇÂ¼³É¹¦£¡\n");
-				system("pause"); //  ¿ÉÒÔÊµÏÖ¶³½áÆÁÄ»£¬±ãÓÚ¹Û²ì³ÌĞòÖ´ĞĞ½á¹û 
-	 			system ("cls");  // ÇåÆÁÃüÁî 
+				printf("ç™»å½•æˆåŠŸï¼\n");
+				system("pause"); //  å¯ä»¥å®ç°å†»ç»“å±å¹•ï¼Œä¾¿äºè§‚å¯Ÿç¨‹åºæ‰§è¡Œç»“æœ 
+	 			system ("cls");  // æ¸…å±å‘½ä»¤ 
 			}	
-				inputValid = 1; // ÊäÈëÓĞĞ§£¬ÍË³öÑ­»·
+				inputValid = 1; // è¾“å…¥æœ‰æ•ˆï¼Œé€€å‡ºå¾ªç¯
 				break;
 		case 2:
-				// Ö´ĞĞ×¢²á²Ù×÷
+				// æ‰§è¡Œæ³¨å†Œæ“ä½œ
 				again_3:
-				printf("ÇëÊäÈëÄúµÄÓÃ»§Ãû£º  ");
+				printf("è¯·è¾“å…¥æ‚¨çš„ç”¨æˆ·åï¼š  ");
 				scanf("%s",name);
 					for (int i=0;i<custCount;i++)
 				{
-						if (strcmp(name,cust[i].CustName) == 0)   //  ±È½ÏÁ½¸ö²ÎÊıµÄ´óĞ¡£¬ÏàÍ¬·µ»ØÁã 
+						if (strcmp(name,cust[i].CustName) == 0)   //  æ¯”è¾ƒä¸¤ä¸ªå‚æ•°çš„å¤§å°ï¼Œç›¸åŒè¿”å›é›¶ 
 						{
-						printf("¸ÃÓÃ»§ÃûÒÑ´æÔÚ");
-						system("pause"); //  ¿ÉÒÔÊµÏÖ¶³½áÆÁÄ»£¬±ãÓÚ¹Û²ì³ÌĞòÖ´ĞĞ½á¹û 
+						printf("è¯¥ç”¨æˆ·åå·²å­˜åœ¨");
+						system("pause"); //  å¯ä»¥å®ç°å†»ç»“å±å¹•ï¼Œä¾¿äºè§‚å¯Ÿç¨‹åºæ‰§è¡Œç»“æœ 
 	 					system ("cls");
 				   		goto  again_3;		 
 						}	
 				}
-					printf("ÇëÊäÈëÃÜÂë£º ");
+					printf("è¯·è¾“å…¥å¯†ç ï¼š ");
 					scanf("%s",code);
 					strcpy (cust[custCount].CustName,name);
-					strcpy (cust[custCount].CustCode,code);	//fscanf  ´ÓÎÄ¼şÖĞ¶ÁÈ¡Êı¾İ±£´æµ½Ç°ÃæµÄÁ´±íÖĞÈ¥ 
+					strcpy (cust[custCount].CustCode,code);	//fscanf  ä»æ–‡ä»¶ä¸­è¯»å–æ•°æ®ä¿å­˜åˆ°å‰é¢çš„é“¾è¡¨ä¸­å» 
 					fprintf(fp,"%s   %s\n",cust[custCount].CustName,cust[custCount].CustCode);
-					//   ½«ĞÂÔö¼ÓµÄÓÃ»§µÄÓÃ»§ÃûºÍÃÜÂëĞ´ÈëÎÄ¼şÖĞÈ¥ 
-					printf("×¢²á³É¹¦£¡\n");
-					system("pause"); //  ¿ÉÒÔÊµÏÖ¶³½áÆÁÄ»£¬±ãÓÚ¹Û²ì³ÌĞòÖ´ĞĞ½á¹û 
+					//   å°†æ–°å¢åŠ çš„ç”¨æˆ·çš„ç”¨æˆ·åå’Œå¯†ç å†™å…¥æ–‡ä»¶ä¸­å» 
+					printf("æ³¨å†ŒæˆåŠŸï¼\n");
+					system("pause"); //  å¯ä»¥å®ç°å†»ç»“å±å¹•ï¼Œä¾¿äºè§‚å¯Ÿç¨‹åºæ‰§è¡Œç»“æœ 
 	 				system ("cls");	
-					inputValid = 1; // ÊäÈëÓĞĞ§£¬ÍË³öÑ­»·
+					inputValid = 1; // è¾“å…¥æœ‰æ•ˆï¼Œé€€å‡ºå¾ªç¯
 					goto again_2; 
 					break;
 		default:
-			printf("ÄúµÄÊäÈëÓĞÎó£¬ÇëÖØĞÂÑ¡ÔñÏëÒª²Ù×÷µÄÄÚÈİ :  ");
+			printf("æ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼Œè¯·é‡æ–°é€‰æ‹©æƒ³è¦æ“ä½œçš„å†…å®¹ :  ");
 			Sleep(1000);
 			system ("cls");
 			goto again_1;
@@ -301,12 +297,12 @@ int main() {
 	mhead = Creat_Movie_Doc();
 	again_9:
 	printf("*************************************\n");
-	printf("           1.½øĞĞµçÓ°¶©Æ±            \n");
-	printf("           2.²é¿´ÎÒµÄ¶©µ¥            \n");
-	printf("           0.ÍË³ö                    \n");
+	printf("           1.è¿›è¡Œç”µå½±è®¢ç¥¨            \n");
+	printf("           2.æŸ¥çœ‹æˆ‘çš„è®¢å•            \n");
+	printf("           0.é€€å‡º                    \n");
 	printf("*************************************\n");
 	int select;
-	printf("ÇëÊäÈëÄúµÄÑ¡Ôñ:  ");
+	printf("è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©:  ");
 	scanf("%d",&select);
 	system ("cls");
  	
@@ -316,15 +312,15 @@ int main() {
 			ohead =MovieOrder(ohead,mhead,name);
 			InorderFile(ohead);
 			goto again_9;
-			break;   // µçÓ°¶©Æ± 
+			break;   // ç”µå½±è®¢ç¥¨ 
 		case 2:
 		Ordercheck(ohead,name);
 		goto again_9;
-		break;   //  ²é¿´¶©Æ±
+		break;   //  æŸ¥çœ‹è®¢ç¥¨
 		case 0:return;break;
 	    default:
 	    	{
-	    		printf("ÄúµÄÊäÈë´íÎó£¬ÇëÖØĞÂÑ¡Ôñ£¡ ");
+	    		printf("æ‚¨çš„è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°é€‰æ‹©ï¼ ");
 	    		Sleep(1000);
 	    		system ("cls");
 	    		goto again_9;
@@ -337,7 +333,7 @@ int readCustomer(struct Customer cust[]) {
     int custCount = 0;
 
     if ((fp = fopen("customer.txt", "r")) == NULL) {
-        printf("ÎÄ¼ş´ò¿ªÊ§°Ü!\n");
+        printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥!\n");
         return 0;
     }
 
@@ -354,21 +350,21 @@ void HouseControl(){
 	head=Create_House_Doc();
 	again_4:
 	printf("---------------------------------------\n");
-	printf("1. Ôö¼Ó·ÅÓ³Ìü \n");
-	printf("2. É¾³ı·ÅÓ³Ìü \n");
-	printf("3. ¶ÔÒÑÓĞ·ÅÓ³Ìü½øĞĞ¸Ä±ä\n");
-	printf("4. ²é¿´·ÅÓ³Ìü \n");
-	printf("0. ÍË³ö\n");
+	printf("1. å¢åŠ æ”¾æ˜ å… \n");
+	printf("2. åˆ é™¤æ”¾æ˜ å… \n");
+	printf("3. å¯¹å·²æœ‰æ”¾æ˜ å…è¿›è¡Œæ”¹å˜\n");
+	printf("4. æŸ¥çœ‹æ”¾æ˜ å… \n");
+	printf("0. é€€å‡º\n");
 	printf("---------------------------------------\n");
 	int choice;
-	printf("ÇëÊäÈëÄãÏëÒª½øĞĞµÄ²Ù×÷:  ");
+	printf("è¯·è¾“å…¥ä½ æƒ³è¦è¿›è¡Œçš„æ“ä½œ:  ");
 	scanf("%d",&choice);
 	system ("cls");
 	switch (choice)
 	{
 		case 1:
 			print_House_Doc(head);
-			printf("ÇëÊäÈëÄãÏëÒªÔö¼ÓµÄ·ÅÓ³ÌüµÄ±àºÅ£¬Ãû×Ö£¬ĞĞ£¬ÁĞ£¬×´Ì¬£º\n");
+			printf("è¯·è¾“å…¥ä½ æƒ³è¦å¢åŠ çš„æ”¾æ˜ å…çš„ç¼–å·ï¼Œåå­—ï¼Œè¡Œï¼Œåˆ—ï¼ŒçŠ¶æ€ï¼š\n");
 			movieHouse * p;
 			p=(struct movieHouse*)malloc(sizeof(struct movieHouse));
 			scanf("%s %s %d %d %s",p->houseNum,p->houseName,&p->houserow,&p->housecol,p->houseState);
@@ -380,7 +376,7 @@ void HouseControl(){
 			break;
 		case 2:
 			print_House_Doc(head);
-			printf("ÇëÊäÈëÄãÏëÈ¥µôµÄ·ÅÓ³ÌüµÄ±àºÅ£º");
+			printf("è¯·è¾“å…¥ä½ æƒ³å»æ‰çš„æ”¾æ˜ å…çš„ç¼–å·ï¼š");
 			char housenum[20];
 			scanf("%s",housenum);
 			system("cls");
@@ -431,16 +427,16 @@ movieHouse *Create_House_Doc()
 		{
 			p = p->next;
 		}
-		while (fgetc(fp)!=EOF)  //  ÅĞ¶ÏÎÄ¼şÊÇ·ñµ½Ä©Î²   sÊÇ·ñÎª¿Õ 
+		while (fgetc(fp)!=EOF)  //  åˆ¤æ–­æ–‡ä»¶æ˜¯å¦åˆ°æœ«å°¾   sæ˜¯å¦ä¸ºç©º 
 		{
 			q = (movieHouse *)malloc (sizeof (movieHouse));
 			fscanf(fp,"%s %s %d %d %s",q->houseNum,q->houseName,&q->houserow,&q->housecol,q->houseState);
-			p->next = q;    // Î²²å·¨ 
+			p->next = q;    // å°¾æ’æ³• 
 			q->next =NULL;
 			p = p->next;
 		 }
 	    movieHouse *p2 = (movieHouse *)malloc (sizeof (movieHouse));
-	    p2 = head;  //  É¾³ı×îºóÒ»¸ö½Úµã 
+	    p2 = head;  //  åˆ é™¤æœ€åä¸€ä¸ªèŠ‚ç‚¹ 
 	    while (p2->next->next)
 	    {
 	    	p2 = p2->next;
@@ -454,32 +450,32 @@ movieHouse *Create_House_Doc()
 }
 void print_House_Doc(movieHouse *head)
 {
-    movieHouse *current = head->next; // Ìø¹ıÍ·½Úµã
+    movieHouse *current = head->next; // è·³è¿‡å¤´èŠ‚ç‚¹
 
-    printf("·ÅÓ³ÌüĞÅÏ¢£º\n");
+    printf("æ”¾æ˜ å…ä¿¡æ¯ï¼š\n");
     while (current != NULL) {
-        printf("·ÅÓ³Ìü±àºÅ£º%s\t", current->houseNum);
-        printf("·ÅÓ³ÌüÃû³Æ£º%s\t", current->houseName);
-        printf("×ùÎ»ĞĞÊı£º%d\t", current->houserow);
-        printf("×ùÎ»ÁĞÊı£º%d\t", current->housecol);
-        printf("·ÅÓ³×´Ì¬£º%s\t", current->houseState);
+        printf("æ”¾æ˜ å…ç¼–å·ï¼š%s\t", current->houseNum);
+        printf("æ”¾æ˜ å…åç§°ï¼š%6s\t", current->houseName);
+        printf("åº§ä½è¡Œæ•°ï¼š%d\t", current->houserow);
+        printf("åº§ä½åˆ—æ•°ï¼š%d\t", current->housecol);
+        printf("æ”¾æ˜ çŠ¶æ€ï¼š%s\t", current->houseState);
         printf("\n");
 		current = current->next;
     }
 } 
 movieHouse *Insert_House_Doc(movieHouse *head, movieHouse *p) {
-    // Èç¹ûÍ·½ÚµãÎª¿Õ£¬Ö±½Ó½«p×÷ÎªĞÂµÄÍ·½Úµã
+    // å¦‚æœå¤´èŠ‚ç‚¹ä¸ºç©ºï¼Œç›´æ¥å°†pä½œä¸ºæ–°çš„å¤´èŠ‚ç‚¹
     if (head == NULL) {
         return p;
     }
 
-    // ±éÀúÁ´±íÕÒµ½×îºóÒ»¸ö½Úµã
+    // éå†é“¾è¡¨æ‰¾åˆ°æœ€åä¸€ä¸ªèŠ‚ç‚¹
     movieHouse *current = head;
     while (current->next != NULL) {
         current = current->next;
     }
 
-    // ½«p²åÈëµ½Á´±íÄ©Î²
+    // å°†pæ’å…¥åˆ°é“¾è¡¨æœ«å°¾
     current->next = p;
     p->next = NULL;
 
@@ -488,38 +484,38 @@ movieHouse *Insert_House_Doc(movieHouse *head, movieHouse *p) {
 movieHouse* Delete_House_Doc(movieHouse* head, char houseNum[])
 {
     if (head == NULL) {
-        printf("·ÅÓ³ÌüÁ´±íÎª¿Õ£¬ÎŞ·¨É¾³ı¡£\n");
+        printf("æ”¾æ˜ å…é“¾è¡¨ä¸ºç©ºï¼Œæ— æ³•åˆ é™¤ã€‚\n");
         return head;
     }
 
     movieHouse* current = head;
     movieHouse* previous = NULL;
 
-    // ±éÀúÁ´±íÕÒµ½´ıÉ¾³ıµÄ·ÅÓ³Ìü
+    // éå†é“¾è¡¨æ‰¾åˆ°å¾…åˆ é™¤çš„æ”¾æ˜ å…
     while (current != NULL && strcmp(current->houseNum, houseNum) != 0) {
         previous = current;
         current = current->next;
     }
 
-    // Èç¹ûÎ´ÕÒµ½¶ÔÓ¦·ÅÓ³Ìü
+    // å¦‚æœæœªæ‰¾åˆ°å¯¹åº”æ”¾æ˜ å…
     if (current == NULL) {
-        printf("Î´ÕÒµ½·ÅÓ³Ìü±àºÅÎª %s µÄ·ÅÓ³Ìü£¬ÎŞ·¨É¾³ı¡£\n", houseNum);
+        printf("æœªæ‰¾åˆ°æ”¾æ˜ å…ç¼–å·ä¸º %s çš„æ”¾æ˜ å…ï¼Œæ— æ³•åˆ é™¤ã€‚\n", houseNum);
         return head;
     }
 
-    // ÕÒµ½ÁË´ıÉ¾³ıµÄ·ÅÓ³Ìü£¬´ÓÁ´±íÖĞÒÆ³ıËü
+    // æ‰¾åˆ°äº†å¾…åˆ é™¤çš„æ”¾æ˜ å…ï¼Œä»é“¾è¡¨ä¸­ç§»é™¤å®ƒ
     if (previous == NULL) {
-        // Èç¹û´ıÉ¾³ıµÄ·ÅÓ³ÌüÊÇÁ´±íµÄµÚÒ»¸öÔªËØ
+        // å¦‚æœå¾…åˆ é™¤çš„æ”¾æ˜ å…æ˜¯é“¾è¡¨çš„ç¬¬ä¸€ä¸ªå…ƒç´ 
         head = head->next;
     } else {
         previous->next = current->next;
     }
 
-    free(current); // ÊÍ·ÅÄÚ´æ
+    free(current); // é‡Šæ”¾å†…å­˜
 
-    printf("·ÅÓ³Ìü±àºÅÎª %s µÄ·ÅÓ³ÌüÒÑ³É¹¦É¾³ı¡£\n", houseNum);
+    printf("æ”¾æ˜ å…ç¼–å·ä¸º %s çš„æ”¾æ˜ å…å·²æˆåŠŸåˆ é™¤ã€‚\n", houseNum);
 
-    return head; // ·µ»Ø¸üĞÂºóµÄÍ·Ö¸Õë
+    return head; // è¿”å›æ›´æ–°åçš„å¤´æŒ‡é’ˆ
 }
 void InHouseFile(movieHouse *head)
 {
@@ -545,12 +541,12 @@ void After_House_Doc(movieHouse *head)
     int choice;
     char name[20];
     movieHouse *ptr, *p;
-    printf("ÇëÊäÈëÄãÏëÒªĞŞ¸ÄµÄ·ÅÓ³ÌüÃû³Æ£º ");
+    printf("è¯·è¾“å…¥ä½ æƒ³è¦ä¿®æ”¹çš„æ”¾æ˜ å…åç§°ï¼š ");
     scanf("%s", name);
     printf("===========================\n");
-    printf("1.×´Ì¬\n");
+    printf("1.çŠ¶æ€\n");
     printf("===========================\n");
-    printf("\nÇëÊäÈëÄãÏëÒªĞŞ¸ÄµÄĞÅÏ¢£º ");
+    printf("\nè¯·è¾“å…¥ä½ æƒ³è¦ä¿®æ”¹çš„ä¿¡æ¯ï¼š ");
     scanf("%d", &choice);
 
     for (ptr = head->next; ptr != NULL; ptr = ptr->next)
@@ -566,34 +562,34 @@ void After_House_Doc(movieHouse *head)
     {
         case 1:
             char newState[20];
-            printf("ÇëÊäÈëÄãÏëÒªĞŞ¸Ä³ÉµÄ×´Ì¬£º ");
+            printf("è¯·è¾“å…¥ä½ æƒ³è¦ä¿®æ”¹æˆçš„çŠ¶æ€ï¼š ");
             scanf("%s", newState);
             strcpy(p->houseState, newState);
             break;
         default:
-            printf("ÎŞĞ§µÄÑ¡Ïî\n");
+            printf("æ— æ•ˆçš„é€‰é¡¹\n");
             break;
     }
     InHouseFile(head);
 }
-void MovieControl()  // µçÓ°³¡´ÎµÄ¹ÜÀí 
+void MovieControl()  // ç”µå½±åœºæ¬¡çš„ç®¡ç† 
 {
 	Movie *mhead;
 //	mhead = (Movie*)malloc(sizeof(Movie));
 //	mhead->next =NULL;
 	mhead = Creat_Movie_Doc();
 	sortMovie(mhead);
-	///  ´Ë´¦ĞèÒªÒ»¸ö½¨Á¢Í·½ÚµãµÄÁ´±í    Í¬Ê±µ¼ÈëµçÓ°ÎÄ¼ş 
+	///  æ­¤å¤„éœ€è¦ä¸€ä¸ªå»ºç«‹å¤´èŠ‚ç‚¹çš„é“¾è¡¨    åŒæ—¶å¯¼å…¥ç”µå½±æ–‡ä»¶ 
 	again_02:
 	printf("****************************************\n");
-	printf("1.Ôö¼ÓµçÓ°\n");
-	printf("2.É¾³ıÒÑ´æÔÚµÄµçÓ°\n");
-	printf("3.ĞŞ¸ÄµçÓ°ĞÅÏ¢\n");
-	printf("4.Êä³öµçÓ°³¡´ÎĞÅÏ¢\n");
-	printf("0.ÍË³ö\n");
+	printf("1.å¢åŠ ç”µå½±\n");
+	printf("2.åˆ é™¤å·²å­˜åœ¨çš„ç”µå½±\n");
+	printf("3.ä¿®æ”¹ç”µå½±ä¿¡æ¯\n");
+	printf("4.è¾“å‡ºç”µå½±åœºæ¬¡ä¿¡æ¯\n");
+	printf("0.é€€å‡º\n");
 	printf("****************************************\n");
 	int choice;
-	printf("ÇëÊäÈëÄúµÄÑ¡Ôñ£º\n");
+	printf("è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š\n");
 	scanf("%d",&choice);
 	system("cls");
 	switch (choice)
@@ -653,16 +649,16 @@ Movie *Creat_Movie_Doc()
 		{
 			p = p->next;
 		}
-		while (fgetc(fp) != EOF) // ÅĞ¶ÏÎÄ¼şÊÇ·ñµ½Ä©Î² sÊÇ·ñÎª¿Õ
+		while (fgetc(fp) != EOF) // åˆ¤æ–­æ–‡ä»¶æ˜¯å¦åˆ°æœ«å°¾ sæ˜¯å¦ä¸ºç©º
 		{
 			q = (Movie *)malloc(sizeof(Movie));
 			fscanf(fp, "%s %s %lf %s %s %s %s", q->movieNum, q->movieName, &q->price, q->date, q->time, q->movieHouse, q->setState);
-			p->next = q; // Î²²å·¨
+			p->next = q; // å°¾æ’æ³•
 			q->next = NULL;
 			p = p->next;
 		}
 		Movie *p2 = (Movie *)malloc(sizeof(Movie));
-		p2 = mhead; // É¾³ı×îºóÒ»¸ö½Úµã
+		p2 = mhead; // åˆ é™¤æœ€åä¸€ä¸ªèŠ‚ç‚¹
 		while (p2->next->next)
 		{
 			p2 = p2->next;
@@ -675,19 +671,19 @@ Movie *Creat_Movie_Doc()
 	return mhead;
 }
 
-Movie *Insert_movie_Doc(Movie *mhead) //²åÈëÁ´±í£¬Ôö¼ÓµçÓ°ÊıÄ¿
+Movie *Insert_movie_Doc(Movie *mhead) //æ’å…¥é“¾è¡¨ï¼Œå¢åŠ ç”µå½±æ•°ç›®
 {
 	Movie *ptr,*ptr1,*p;
 	ptr = (Movie *)malloc (sizeof (Movie));
 	ptr = mhead;
 	int n;
-	printf("\n\nÇëÊäÈëÄãÏëÒªÔö¼ÓµÄµçÓ°³¡Êı£º\n ");
+	printf("\n\nè¯·è¾“å…¥ä½ æƒ³è¦å¢åŠ çš„ç”µå½±åœºæ•°ï¼š\n ");
 	scanf("%d",&n);
  
 		while (n)
 		{
 			p = (Movie *)malloc (sizeof (Movie));
-			printf("\n\nÇëÊäÈëµçÓ°µÄ ±àºÅ£¬Ãû×Ö£¬¼Û¸ñ£¬·ÅÓ³ÈÕÆÚ£¬·ÅÓ³Ê±¼ä£¬·ÅÓ³µØµã,ÏÖÔÚ×´Ì¬\n");
+			printf("\n\nè¯·è¾“å…¥ç”µå½±çš„ ç¼–å·ï¼Œåå­—ï¼Œä»·æ ¼ï¼Œæ”¾æ˜ æ—¥æœŸï¼Œæ”¾æ˜ æ—¶é—´ï¼Œæ”¾æ˜ åœ°ç‚¹,ç°åœ¨çŠ¶æ€\n");
 			scanf("%s %s %ld %s %s %s %s",p->movieNum,p->movieName,&p->price,p->date,p->time,p->movieHouse,p->setState);
 			if (ptr->next ==NULL)
 			{
@@ -703,11 +699,11 @@ Movie *Insert_movie_Doc(Movie *mhead) //²åÈëÁ´±í£¬Ôö¼ÓµçÓ°ÊıÄ¿
 		}
 	return mhead;
 }
-Movie *Delete_Movie_Doc(Movie *mhead) //É¾³ıµçÓ°³¡´ÎĞÅÏ¢
+Movie *Delete_Movie_Doc(Movie *mhead) //åˆ é™¤ç”µå½±åœºæ¬¡ä¿¡æ¯
 {
 	Movie *ptr1,*ptr2;
 	int n;
-	printf("\n\nÇëÊäÈëÄãÏëÒªÉ¾³ıµÄµçÓ°µÄÊıÄ¿£º  ");
+	printf("\n\nè¯·è¾“å…¥ä½ æƒ³è¦åˆ é™¤çš„ç”µå½±çš„æ•°ç›®ï¼š  ");
 	scanf("%d",&n);
 	ptr1 = (Movie *)malloc (sizeof (Movie));
 	ptr2 = (Movie *)malloc (sizeof (Movie));
@@ -717,7 +713,7 @@ Movie *Delete_Movie_Doc(Movie *mhead) //É¾³ıµçÓ°³¡´ÎĞÅÏ¢
 	char num[20];
 	while(n)
 	{
-		printf("\n\nÇëÊäÈëÄãÏëÒªÉ¾³ıµÄµçÓ°µÄ±àºÅ£º  ");
+		printf("\n\nè¯·è¾“å…¥ä½ æƒ³è¦åˆ é™¤çš„ç”µå½±çš„ç¼–å·ï¼š  ");
 		scanf("%s",num);
 		while(ptr2!=NULL)
 		{
@@ -726,8 +722,8 @@ Movie *Delete_Movie_Doc(Movie *mhead) //É¾³ıµçÓ°³¡´ÎĞÅÏ¢
 				ptr1->next = ptr2->next;
 				free(ptr2);
 			}
-			ptr1 = ptr2;  // ÅĞ¶Ï±àºÅ²»ÏàÍ¬£¬ptr1 ÒÆ¶¯µ½ptr2 µÄÎ»ÖÃ 
-			ptr2= ptr2->next;  //ptr2 ÍùºóÒÆ¶¯Ò»¸ö½áµã 
+			ptr1 = ptr2;  // åˆ¤æ–­ç¼–å·ä¸ç›¸åŒï¼Œptr1 ç§»åŠ¨åˆ°ptr2 çš„ä½ç½® 
+			ptr2= ptr2->next;  //ptr2 å¾€åç§»åŠ¨ä¸€ä¸ªç»“ç‚¹ 
 		}
 		n--;
 	}
@@ -735,20 +731,20 @@ Movie *Delete_Movie_Doc(Movie *mhead) //É¾³ıµçÓ°³¡´ÎĞÅÏ¢
 	
 }
 
-void After_Movie_Doc(Movie *mhead)   //ĞŞ¸ÄµçÓ°³¡´ÎĞÅÏ¢
+void After_Movie_Doc(Movie *mhead)   //ä¿®æ”¹ç”µå½±åœºæ¬¡ä¿¡æ¯
 {
 	int choice;
 	char name[20];
 	Movie *ptr,*p;
 	movieHouse* ptr1;
-	printf("ÇëÊäÈëÄãÏëÒªĞŞ¸ÄµÄµçÓ°Ãû³Æ£º ");
+	printf("è¯·è¾“å…¥ä½ æƒ³è¦ä¿®æ”¹çš„ç”µå½±åç§°ï¼š ");
 	scanf("%s",name);
 	printf("===========================\n");
-	printf("1.¼Û¸ñ\n");
-	printf("2.ËùÔÚ·ÅÓ³Ìü±àºÅ\n");
-	printf("3.·ÅÓ³Ê±¼ä\n");
+	printf("1.ä»·æ ¼\n");
+	printf("2.æ‰€åœ¨æ”¾æ˜ å…ç¼–å·\n");
+	printf("3.æ”¾æ˜ æ—¶é—´\n");
 	printf("===========================\n");
-	printf("\nÇëÊäÈëÄãÏëÒªĞŞ¸ÄµÄĞÅÏ¢£º ");
+	printf("\nè¯·è¾“å…¥ä½ æƒ³è¦ä¿®æ”¹çš„ä¿¡æ¯ï¼š ");
 	scanf("%d",&choice);
 	for (ptr=mhead->next;ptr!=NULL;ptr=ptr->next)
 	{
@@ -762,20 +758,20 @@ void After_Movie_Doc(Movie *mhead)   //ĞŞ¸ÄµçÓ°³¡´ÎĞÅÏ¢
 	{
 		case 1:
 			double price;
-			printf("ÇëÊäÈëÄãÏëÒªĞŞ¸Ä³ÉÎªµÄ¼Û¸ñ£º");
+			printf("è¯·è¾“å…¥ä½ æƒ³è¦ä¿®æ”¹æˆä¸ºçš„ä»·æ ¼ï¼š");
 			scanf("%lf",&price);
 			p->price=price;
 			break;
 		case 2:
 			char num[20];
-			printf("ÇëÊäÈëÄãÏëÒªĞŞ¸Ä³ÉµÄ±àºÅ£º ");
+			printf("è¯·è¾“å…¥ä½ æƒ³è¦ä¿®æ”¹æˆçš„ç¼–å·ï¼š ");
 			scanf("%s",num);
 			strcpy(p->movieHouse,num);
 		///	memcpy(p->movieHouse,num);
 			break;
 		case 3:
 			char time[20];
-			printf("ÇëÊäÈëÄãÏëÒª¸Ä³ÉµÄÊ±¼ä£º ");
+			printf("è¯·è¾“å…¥ä½ æƒ³è¦æ”¹æˆçš„æ—¶é—´ï¼š ");
 			scanf("%s",time);
 			strcpy(p->time,time);
 		//	p->time=time[20];
@@ -784,7 +780,7 @@ void After_Movie_Doc(Movie *mhead)   //ĞŞ¸ÄµçÓ°³¡´ÎĞÅÏ¢
 	}
 	InMoviefile(mhead);	
 }
-void InMoviefile(Movie * mhead)   // ½«µçÓ°ĞÅÏ¢Ğ´ÈëÎÄ¼ş£¬ÊµÏÖÎÄ¼şµÄ¸üĞÂ 
+void InMoviefile(Movie * mhead)   // å°†ç”µå½±ä¿¡æ¯å†™å…¥æ–‡ä»¶ï¼Œå®ç°æ–‡ä»¶çš„æ›´æ–° 
 {
 	FILE * fp;
 	if ((fp=fopen("movie.txt","w"))==NULL)
@@ -795,7 +791,7 @@ void InMoviefile(Movie * mhead)   // ½«µçÓ°ĞÅÏ¢Ğ´ÈëÎÄ¼ş£¬ÊµÏÖÎÄ¼şµÄ¸üĞÂ
 	Movie *ptr;
 	for (ptr= mhead ->next;ptr!=NULL;ptr=ptr->next)
 	{
-		fprintf(fp,"%s %s %ld %s %s %s %s\n",ptr->movieNum,ptr->movieName,ptr->price,ptr->date,ptr->time,ptr->movieHouse,ptr->setState);
+		fprintf(fp,"%s %s %lf %s %s %s %s\n",ptr->movieNum,ptr->movieName,ptr->price,ptr->date,ptr->time,ptr->movieHouse,ptr->setState);
 	}
 	if (fclose(fp))
 	{
@@ -803,7 +799,7 @@ void InMoviefile(Movie * mhead)   // ½«µçÓ°ĞÅÏ¢Ğ´ÈëÎÄ¼ş£¬ÊµÏÖÎÄ¼şµÄ¸üĞÂ
 		exit(0);
 	}
 }
-void sortMovie(Movie *mhead)  // ¶ÔµçÓ°±àºÅ½øĞĞÉıĞò 
+void sortMovie(Movie *mhead)  // å¯¹ç”µå½±ç¼–å·è¿›è¡Œå‡åº 
 {
 	Movie *p,*q,*r;
 	r = NULL;
@@ -828,16 +824,16 @@ void sortMovie(Movie *mhead)  // ¶ÔµçÓ°±àºÅ½øĞĞÉıĞò
 void Printf_Movie_Doc(Movie *mhead)
 {
     printf("\n===========================\n");
-    printf("   µçÓ°ĞÅÏ¢\n");
+    printf("   ç”µå½±ä¿¡æ¯\n");
     printf("===========================\n");
-    printf("±àºÅ\t  Ãû³Æ   \t¼Û¸ñ\t   ÈÕÆÚ  \tÊ±¼ä   ·ÅÓ³Ìü    ×´Ì¬\n");
+    printf("ç¼–å·\t  åç§°   \tä»·æ ¼\t   æ—¥æœŸ  \tæ—¶é—´   æ”¾æ˜ å…    çŠ¶æ€\n");
     Movie *ptr;
     for (ptr = mhead->next; ptr != NULL; ptr = ptr->next)
     {
         printf("%s\t%10s\t%.2lf\t%s\t%s\t%s\t%s\n", ptr->movieNum, ptr->movieName, ptr->price, ptr->date, ptr->time, ptr->movieHouse, ptr->setState);
     }
 }
-Order *Create_Order_Doc() // ´´½¨¶©µ¥Á´±íºÍÎÄ¼ş½øÈëÁ´±í
+Order *Create_Order_Doc() // åˆ›å»ºè®¢å•é“¾è¡¨å’Œæ–‡ä»¶è¿›å…¥é“¾è¡¨
 {
 	FILE *fp=fopen("order.txt","rt");
 	if (fp==NULL)
@@ -860,16 +856,16 @@ Order *Create_Order_Doc() // ´´½¨¶©µ¥Á´±íºÍÎÄ¼ş½øÈëÁ´±í
 		{
 			p = p->next;
 		}
-		while (fgetc(fp)!=EOF)  //  ÅĞ¶ÏÎÄ¼şÊÇ·ñµ½Ä©Î²   sÊÇ·ñÎª¿Õ 
+		while (fgetc(fp)!=EOF)  //  åˆ¤æ–­æ–‡ä»¶æ˜¯å¦åˆ°æœ«å°¾   sæ˜¯å¦ä¸ºç©º 
 		{
 			q = (Order *)malloc (sizeof (Order));
 			fscanf(fp,"%s %s %d %s %lf %s", p1->custName, p1->movieName, &p1->ticketNum, p1->set, &p1->ticketCost, p1->OrderDate);
-			p->next = q;    // Î²²å·¨ 
+			p->next = q;    // å°¾æ’æ³• 
 			q->next =NULL;
 			p = p->next;
 		 }
 	    Order *p2 = (Order *)malloc (sizeof (Order));
-	    p2 = ohead;  //  É¾³ı×îºóÒ»¸ö½Úµã 
+	    p2 = ohead;  //  åˆ é™¤æœ€åä¸€ä¸ªèŠ‚ç‚¹ 
 	    while (p2->next->next)
 	    {
 	    	p2 = p2->next;
@@ -885,11 +881,11 @@ Order *Create_Order_Doc() // ´´½¨¶©µ¥Á´±íºÍÎÄ¼ş½øÈëÁ´±í
 void InorderFile(Order *ohead) {
     FILE *fp = fopen("order.txt", "w");
     if (fp == NULL) {
-        printf("ÎŞ·¨´ò¿ªÎÄ¼ş¡£\n");
+        printf("æ— æ³•æ‰“å¼€æ–‡ä»¶ã€‚\n");
         return;
     }
 
-    // ±éÀú¶©µ¥Á´±í£¬½«Ã¿¸ö¶©µ¥Ğ´Èëµ½ÎÄ¼şÖĞ
+    // éå†è®¢å•é“¾è¡¨ï¼Œå°†æ¯ä¸ªè®¢å•å†™å…¥åˆ°æ–‡ä»¶ä¸­
     Order *current = ohead;
     while (current != NULL) {
         fprintf(fp, "%s %s %d %s %.2lf %s\n", current->custName, current->movieName, current->ticketNum, current->set, current->ticketCost, current->OrderDate);
@@ -899,15 +895,15 @@ void InorderFile(Order *ohead) {
     fclose(fp);
 }
 Order * MovieOrder(Order *ohead, Movie *mhead, char custName[]) {
-    // ÏÔÊ¾ËùÓĞµçÓ°
+    // æ˜¾ç¤ºæ‰€æœ‰ç”µå½±
     Printf_Movie_Doc(mhead);
 
-    // ÈÃ¹Ë¿ÍÑ¡ÔñµçÓ°
+    // è®©é¡¾å®¢é€‰æ‹©ç”µå½±
     char movieNum[20];
-    printf("ÇëÊäÈëÄãÏëÒª¹ºÆ±µÄµçÓ°±àºÅ£º ");
+    printf("è¯·è¾“å…¥ä½ æƒ³è¦è´­ç¥¨çš„ç”µå½±ç¼–å·ï¼š ");
     scanf("%s", movieNum);
 
-    // ÔÚµçÓ°Á´±íÖĞÕÒµ½¹Ë¿ÍÑ¡ÔñµÄµçÓ°
+    // åœ¨ç”µå½±é“¾è¡¨ä¸­æ‰¾åˆ°é¡¾å®¢é€‰æ‹©çš„ç”µå½±
     Movie *selectedMovie = NULL;
     Movie *currentMovie = mhead->next;
     while (currentMovie != NULL) {
@@ -918,18 +914,18 @@ Order * MovieOrder(Order *ohead, Movie *mhead, char custName[]) {
         currentMovie = currentMovie->next;
     }
 
-    // Èç¹ûÃ»ÓĞÕÒµ½¹Ë¿ÍÑ¡ÔñµÄµçÓ°£¬·µ»Ø´íÎó
+    // å¦‚æœæ²¡æœ‰æ‰¾åˆ°é¡¾å®¢é€‰æ‹©çš„ç”µå½±ï¼Œè¿”å›é”™è¯¯
     if (selectedMovie == NULL) {
-        printf("Î´ÕÒµ½±àºÅÎª %s µÄµçÓ°¡£\n", movieNum);
+        printf("æœªæ‰¾åˆ°ç¼–å·ä¸º %s çš„ç”µå½±ã€‚\n", movieNum);
         return ohead;
     }
 
-    // ÈÃ¹Ë¿ÍÊäÈë¹ºÆ±ÊıÁ¿
+    // è®©é¡¾å®¢è¾“å…¥è´­ç¥¨æ•°é‡
     int ticketNum;
-    printf("ÇëÊäÈë¹ºÆ±ÊıÁ¿£º ");
+    printf("è¯·è¾“å…¥è´­ç¥¨æ•°é‡ï¼š ");
     scanf("%d", &ticketNum);
 
-    // ´´½¨ĞÂµÄ¶©µ¥
+    // åˆ›å»ºæ–°çš„è®¢å•
     Order *newOrder = (Order *)malloc(sizeof(Order));
     strcpy(newOrder->custName, custName);
     strcpy(newOrder->movieName, selectedMovie->movieName);
@@ -937,23 +933,23 @@ Order * MovieOrder(Order *ohead, Movie *mhead, char custName[]) {
     strcpy(newOrder->set, selectedMovie->movieHouse);
     newOrder->ticketCost = ticketNum * selectedMovie->price;
     strcpy(newOrder->OrderDate, selectedMovie->date);
-    // ½«ĞÂµÄ¶©µ¥²åÈëµ½¶©µ¥Á´±íÖĞ
+    // å°†æ–°çš„è®¢å•æ’å…¥åˆ°è®¢å•é“¾è¡¨ä¸­
     ohead = Insert_Order_Doc(ohead, newOrder);
 
     return ohead;
 }	
 void Ordercheck(Order *ohead, char name[]) {
-    FILE* fp = fopen("order.txt", "r"); // ÒÔÖ»¶ÁÄ£Ê½´ò¿ªÎÄ¼ş
+    FILE* fp = fopen("order.txt", "r"); // ä»¥åªè¯»æ¨¡å¼æ‰“å¼€æ–‡ä»¶
     if (fp == NULL) {
-        printf("ÎÄ¼ş´ò¿ª´íÎó¡£\n");
+        printf("æ–‡ä»¶æ‰“å¼€é”™è¯¯ã€‚\n");
         return;
     }
-    printf("ĞÕÃû  µçÓ°Ãû³Æ  Æ±Êı  ·ÅÓ³Ìü  Æ±¼Û  ¶©µ¥ÈÕÆÚ\n");
+    printf("å§“å  ç”µå½±åç§°  ç¥¨æ•°  æ”¾æ˜ å…  ç¥¨ä»·  è®¢å•æ—¥æœŸ\n");
     printf("=========================================\n");
 
     struct Order currentOrder;
 
-    // ÖğĞĞ¶ÁÈ¡ÎÄ¼şÖĞµÄ¶©µ¥ĞÅÏ¢²¢Êä³öµ½¿ØÖÆÌ¨
+    // é€è¡Œè¯»å–æ–‡ä»¶ä¸­çš„è®¢å•ä¿¡æ¯å¹¶è¾“å‡ºåˆ°æ§åˆ¶å°
     while (fscanf(fp, "%s %s %d %s %lf %s", currentOrder.custName, currentOrder.movieName, &currentOrder.ticketNum,
                   currentOrder.set, &currentOrder.ticketCost, currentOrder.OrderDate) != EOF) {
         if (strcmp(currentOrder.custName, name) == 0) {
@@ -962,23 +958,23 @@ void Ordercheck(Order *ohead, char name[]) {
         }
     }
     printf("=========================================\n");
-    fclose(fp); // ¹Ø±ÕÎÄ¼ş
+    fclose(fp); // å…³é—­æ–‡ä»¶
 }
 
-Order *Insert_Order_Doc(Order *ohead,Order *p)  // ½«¹Ë¿ÍµÄÑ¡Ôñ²åÈëÁ´±íÖĞ
+Order *Insert_Order_Doc(Order *ohead,Order *p)  // å°†é¡¾å®¢çš„é€‰æ‹©æ’å…¥é“¾è¡¨ä¸­
 {
-// Èç¹ûÍ·½ÚµãÎª¿Õ£¬Ö±½Ó½«p×÷ÎªĞÂµÄÍ·½Úµã
+// å¦‚æœå¤´èŠ‚ç‚¹ä¸ºç©ºï¼Œç›´æ¥å°†pä½œä¸ºæ–°çš„å¤´èŠ‚ç‚¹
     if (ohead == NULL) {
         return p;
     }
 
-    // ±éÀúÁ´±íÕÒµ½×îºóÒ»¸ö½Úµã
+    // éå†é“¾è¡¨æ‰¾åˆ°æœ€åä¸€ä¸ªèŠ‚ç‚¹
     Order *current = ohead;
     while (current->next != NULL) {
         current = current->next;
     }
     
-    // ½«p²åÈëµ½Á´±íÄ©Î²
+    // å°†pæ’å…¥åˆ°é“¾è¡¨æœ«å°¾
     current->next = p;
     p->next = NULL;
     return ohead;
